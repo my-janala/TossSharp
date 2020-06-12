@@ -1,13 +1,10 @@
 @echo off
 pushd "%~dp0"
-
-if exist RedistPackages rd /s /q RedistPackages
-if not exist RedistPackages mkdir RedistPackages
-
-set projectname=TossSharp
-.nuget\NuGet.exe pack %projectname%\%projectname%.csproj -IncludeReferencedProjects -Build -Symbols -OutputDirectory RedistPackages -Verbosity detailed -Properties Configuration=Release
-.nuget\NuGet.exe push RedistPackages\%projectname%.*.nupkg -Source "https://www.nuget.org/api/v2/package"
-
-pause
+if exist Debug rd /s /q Debug
+if exist Release rd /s /q Release
+if exist x64 rd /s /q x64
+"%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" /p:Configuration=Release /p:Platform=x64
+"%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" /p:Configuration=Release /p:Platform=x86
+:exit
 popd
 @echo on
